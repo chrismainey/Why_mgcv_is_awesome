@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Why mgcv is awesome</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Chris Mainey" />
+    <meta name="date" content="2020-01-16" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+.pull-left[
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+# Why I love `mgcv`
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+<i class="fas  fa-envelope "></i> chris.mainey@uhb.nhs.uk
+
+<i class="fas  fa-globe "></i> [mainard.co.uk](https://www.mainard.co.uk)
+
+<i class="fab  fa-github "></i> [github.com/chrismainey](https://github.com/chrismainey)
+
+<i class="fab  fa-twitter "></i> [twitter.com/chrismainey](https://twitter.com/chrismainey)
+
+]
+
+.pull-right[
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;a href="https://imgflip.com/i/3mampd"&gt;&lt;img src="https://i.imgflip.com/3mampd.jpg" title="made at imgflip.com"/&gt;&lt;/a&gt;
+
+
+
+
+---
+
+# What is it?
+
++ Modern reworking of `data.frame`
+
++ Implemented in C for speed and portability
+
++ Using Low level paralellism via OpenMP
+
++ Supports keys, to physiscally order data in memory 
+
+--
+
+# Why?
+
++ `data.frame` is slow, `data.table` is fast:
+
+--
+
+ + Like,  _reeeeeally fast_ : https://h2oai.github.io/db-benchmark/
+
+--
+
++ Pass by reference, not by value.
+
+--
+
++ It uses minimal memory
+
+--
+
++ Fast I/O functions: `fread` and `fwrite`
+
+
+---
+
+# Synatx overview
+
+&lt;br&gt;&lt;br&gt;
+
+![](https://www.meganstodel.com/posts/2019-05-30-three-reasons-why-i-use-data-table_files/datatable.png)
+
+.footnote[
+Image taken from `data.table` wiki, via Megan Stodel's excellent blog post: https://www.meganstodel.com/posts/data-table/
+]
+
+---
+
+# Examples
+
+
+
+```r
+library(NHSRdatasets)
+library(data.table)
+dt&lt;-data.table(LOS_model, key = "Organisation")
+dt[Organisation == "Trust1", median(LOS)]
+```
+
+```
+## [1] 5
+```
+
+```r
+dt[,.(Mean = mean(LOS),  Median=median(LOS)), Organisation]
+```
+
+```
+##     Organisation     Mean Median
+##  1:       Trust1 5.066667    5.0
+##  2:       Trust2 4.233333    3.0
+##  3:       Trust3 5.066667    4.5
+##  4:       Trust4 4.866667    4.0
+##  5:       Trust5 6.100000    4.5
+##  6:       Trust6 4.900000    4.0
+##  7:       Trust7 5.100000    4.0
+##  8:       Trust8 4.700000    3.0
+##  9:       Trust9 5.033333    4.0
+## 10:      Trust10 4.300000    3.0
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

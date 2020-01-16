@@ -1,0 +1,112 @@
+---
+title: "Why mgcv is awesome"
+author: "Chris Mainey"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+    seal: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+mono_light(base_color = "#23395b",
+           )
+```
+
+.pull-left[
+
+<br><br><br>
+<br><br><br>
+
+# Why I love `mgcv`
+
+<br><br><br>
+<br><br><br>
+
+`r icon::fa("envelope")` chris.mainey@uhb.nhs.uk
+
+`r icon::fa("globe")` [mainard.co.uk](https://www.mainard.co.uk)
+
+`r icon::fa("github")` [github.com/chrismainey](https://github.com/chrismainey)
+
+`r icon::fa("twitter")` [twitter.com/chrismainey](https://twitter.com/chrismainey)
+
+]
+
+.pull-right[
+<br><br><br>
+<br>
+<a href="https://imgflip.com/i/3mampd"><img src="https://i.imgflip.com/3mampd.jpg" title="made at imgflip.com"/></a>
+
+
+
+
+---
+
+# What is it?
+
++ Modern reworking of `data.frame`
+
++ Implemented in C for speed and portability
+
++ Using Low level paralellism via OpenMP
+
++ Supports keys, to physiscally order data in memory 
+
+--
+
+# Why?
+
++ `data.frame` is slow, `data.table` is fast:
+
+--
+
+ + Like,  _reeeeeally fast_ : https://h2oai.github.io/db-benchmark/
+
+--
+
++ Pass by reference, not by value.
+
+--
+
++ It uses minimal memory
+
+--
+
++ Fast I/O functions: `fread` and `fwrite`
+
+
+---
+
+# Synatx overview
+
+<br><br>
+
+![](https://www.meganstodel.com/posts/2019-05-30-three-reasons-why-i-use-data-table_files/datatable.png)
+
+.footnote[
+Image taken from `data.table` wiki, via Megan Stodel's excellent blog post: https://www.meganstodel.com/posts/data-table/
+]
+
+---
+
+# Examples
+
+
+```{r dt_example}
+library(NHSRdatasets)
+library(data.table)
+dt<-data.table(LOS_model, key = "Organisation")
+dt[Organisation == "Trust1", median(LOS)]
+dt[,.(Mean = mean(LOS),  Median=median(LOS)), Organisation]
+```
