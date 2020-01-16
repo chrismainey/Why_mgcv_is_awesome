@@ -48,7 +48,7 @@ mono_light(base_color = "#23395b",
 <br>
 <a href="https://imgflip.com/i/3mampd"><img src="https://i.imgflip.com/3mampd.jpg" title="made at imgflip.com"/></a>
 
-
+]
 
 
 ---
