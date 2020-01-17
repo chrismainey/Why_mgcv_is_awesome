@@ -4,7 +4,7 @@
     <title>Why mgcv is awesome</title>
     <meta charset="utf-8" />
     <meta name="author" content="Chris Mainey" />
-    <meta name="date" content="2020-01-16" />
+    <meta name="date" content="2020-01-17" />
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -24,7 +24,7 @@
 # Why `mgcv` is awesome
 
 &lt;br&gt;&lt;br&gt;&lt;br&gt;
-&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;br&gt;&lt;br&gt;
 
 <i class="fas  fa-envelope "></i> chris.mainey@uhb.nhs.uk
 
@@ -53,7 +53,7 @@
 &lt;img src="Why_data_table_is_awesome_files/figure-html/regression1-1.png" style="display: block; margin: auto;" /&gt;
 ---
 
-# Equation of a stright line
+# Equation of a straight line
 
 `$$y= \alpha + \beta x + \epsilon$$`
 
@@ -82,7 +82,7 @@
 
 # Splines
 
-+ Smooth, piecewise polynomials, like a flexible strip for drawing curves.
++ Smooth, piece-wise polynomials, like a flexible strip for drawing curves.
 + 'Knot points' between each section
 
 &lt;img src="Why_data_table_is_awesome_files/figure-html/gam1-1.png" style="display: block; margin: auto;" /&gt;
@@ -93,115 +93,209 @@
 
 Can be controlled by number of knots, or by a penalty
 
-&lt;img src="Why_data_table_is_awesome_files/figure-html/knot2-1.png" style="display: block; margin: auto;" /&gt;&lt;img src="Why_data_table_is_awesome_files/figure-html/knot2-2.png" style="display: block; margin: auto;" /&gt;
+.pull-left[
+&lt;img src="Why_data_table_is_awesome_files/figure-html/knots2-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="Why_data_table_is_awesome_files/figure-html/penalty-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Generalized Additive Model
+
++ Regression models where we fit smoothers (like splines) from our data.
++ Strictly Additive, but smoothers can describe complex relationships.
++ In our case:
+
+`$$y= \alpha + \beta f(x) + \epsilon$$`
+--
+
+&lt;br&gt;
+Or more formally (Wood, 2017):
+
+$$ g(\mu i) = Ai\theta + f1(x1) + f2(x2i) + f3(x3i, x4i) + ...$$
+Where:
++ `\(\mu i \equiv E(Y i)\)`, the expectation of Y
++ `\(Yi \sim EF(\mu i, \phi i)\)`, `\(Yi\)` is a response variable, distributed according to exponential family distribution with mean `\(\mu i\)` and shape parameter `\(\phi\)`.
++ `\(Ai\)` is a row of the model matrix for any strictly parametric model components with `\(\theta\)` the corresponding parameter vector.
++ `\(fi\)` are smooth functions of the covariates, `\(xk\)`.
+
+---
+# What does that mean for me?
+
++ Can build regression models with smoother
++ Suited to non-linear, or noisy data
++ Hastie(1985) method uses knot ever point, Wood(2017) uses reduced rank version
+
+--
+
+# mgcv: mixed gam computation vehicle
+
++ Prof. Simon Wood's package, pretty much the standard
++ Included in base `R` distribution and `ggplot2`s `geom_smooth` uses it
+
+
+```r
+library(mgcv)
+my_gam &lt;- gam(y ~ s(x, bs="cr"), data=dt)
+```
+
++ `s()` control smoothers
++ `bs="cr"` telling it to use cubic regression spline ('basis')
++ Default is 10 knots, but can alter with `k=`
+---
+
+# Model Output:
+
+```r
+summary(my_gam)
+```
 
 ```
-## $x
-##   [1]  -3.479981   1.000000   2.000000   3.000000   3.430454   3.558565
-##   [7]   4.000000   4.051143   4.188942   5.000000   6.000000   6.683369
-##  [13]   7.000000   7.552404   7.708173   8.000000   8.362607   9.000000
-##  [19]   9.722217  10.000000  10.182617  11.000000  12.000000  12.011528
-##  [25]  13.000000  13.672436  14.000000  14.251748  14.770561  15.000000
-##  [31]  15.258680  16.000000  17.000000  18.000000  18.818602  19.000000
-##  [37]  19.288753  19.559027  20.000000  20.315926  21.000000  21.014121
-##  [43]  22.000000  22.663564  23.000000  24.000000  25.000000  26.000000
-##  [49]  26.193678  26.423686  26.870363  27.000000  27.348137  27.503540
-##  [55]  28.000000  29.000000  29.549601  30.000000  31.000000  31.770269
-##  [61]  32.000000  32.297615  32.376570  33.000000  33.072227  33.445992
-##  [67]  33.523183  33.987008  34.000000  35.000000  35.096794  36.000000
-##  [73]  36.472918  36.477463  36.744188  37.000000  38.000000  39.000000
-##  [79]  39.743643  40.000000  40.799481  41.000000  42.000000  42.721305
-##  [85]  43.000000  44.000000  44.072600  44.944170  45.000000  46.000000
-##  [91]  47.000000  47.003544  47.528599  47.947158  48.000000  48.374666
-##  [97]  49.000000  49.065221  50.000000  50.579187  51.000000  51.986067
-## [103]  52.000000  53.000000  54.000000  54.513767  54.674275  55.000000
-## [109]  55.506616  56.000000  57.000000  57.304915  57.928300  58.000000
-## [115]  58.096763  59.000000  59.618766  60.000000  60.056986  60.562065
-## [121]  60.715970  61.000000  61.909945  62.000000  62.430191  62.664116
-## [127]  62.994052  63.000000  63.026914  64.000000  65.000000  66.000000
-## [133]  67.000000  67.239547  68.000000  69.000000  69.729859  70.000000
-## [139]  70.849306  71.000000  71.837993  72.000000  72.596226  72.764235
-## [145]  73.000000  74.000000  75.000000  75.037464  75.215929  75.218437
-## [151]  75.419681  76.000000  76.254537  77.000000  77.888876  78.000000
-## [157]  79.000000  80.000000  81.000000  81.038814  81.794184  81.818634
-## [163]  82.000000  82.162379  82.384670  82.602307  83.000000  83.576421
-## [169]  84.000000  84.211352  84.718588  85.000000  86.000000  86.300591
-## [175]  87.000000  87.951742  88.000000  89.000000  89.130133  90.000000
-## [181]  90.378485  91.000000  92.000000  92.105051  92.235293  93.000000
-## [187]  94.000000  95.000000  95.018885  96.000000  97.000000  97.089929
-## [193]  97.487816  98.000000  98.181714  99.000000 100.000000 100.477018
-## [199] 100.696100 101.537942 101.549241 102.298750 102.413909 103.687724
-## [205] 104.470773 104.922037 106.076287 106.155922 109.857384 112.423252
-## [211] 113.548402 114.307361 114.889102 114.903008 115.414919 115.893506
-## [217] 116.082466 117.072694 117.128057 117.155006 121.078720 121.776470
-## [223] 123.085373 124.262674 126.092318 127.112214 127.479895 128.056890
-## [229] 128.094912 129.621522 131.489006 131.818207 132.313482 132.855712
-## [235] 133.403569 133.475605 134.970665 136.796928 139.104742 139.200796
-## [241] 140.938187 141.076489 143.480303 143.495126 144.676153 147.375834
-## [247] 147.425939 150.121986 151.190618 151.511809 152.200218 152.427300
-## [253] 153.575478 154.280414 155.538084 155.983247 156.664405 158.452483
-## [259] 159.761095 161.439209 161.557174 162.335490 165.125979 165.255122
-## [265] 167.431801 167.992544 169.153771 169.250838 169.394413 169.403997
-## [271] 169.953947 171.550648 171.901646 173.479690 174.105423 176.235772
-## [277] 177.217363 179.166285 182.596455 183.334245 184.482080 184.500993
-## [283] 185.032439 185.273139 186.056101 189.033724 189.737905 190.446036
-## [289] 190.737929 191.023628 191.465395 191.569239 194.130586 195.931865
-## [295] 196.225065 198.517328 198.812640 199.421547 202.256904 204.248215
 ## 
-## $y
-##   [1]  -0.5423220   0.3118017   0.5019459   0.6917600   0.7733407   0.7976040
-##   [7]   0.8811529   0.8908277   0.9168915   1.0702776   1.2599166   1.3903052
-##  [13]   1.4510316   1.5574264   1.5875182   1.6439871   1.7143129   1.8383294
-##  [19]   1.9793833   2.0337594   2.0695376   2.2299233   2.4265365   2.4288048
-##  [25]   2.6231862   2.7548967   2.8187669   2.8676964   2.9680465   3.0121972
-##  [31]   3.0618033   3.2029772   3.3912736   3.5777210   3.7294850   3.7630545
-##  [37]   3.8164691   3.8664567   3.9480439   4.0065563   4.1335881   4.1362167
-##  [43]   4.3208381   4.4469409   4.5116691   4.7079904   4.9114856   5.1237700
-##  [49]   5.1660222   5.2167119   5.3168125   5.3462922   5.4264548   5.4627194
-##  [55]   5.5806452   5.8281723   5.9699874   6.0892863   6.3640835   6.5849162
-##  [61]   6.6522956   6.7406093   6.7642312   6.9535653   6.9758212   7.0920566
-##  [67]   7.1162846   7.2634758   7.2676384   7.5944724   7.6267795   7.9339606
-##  [73]   8.0989624   8.1005627   8.1949461   8.2863795   8.6526455   9.0336308
-##  [79]   9.3268487   9.4298314   9.7569368   9.8403361  10.2636628  10.5758642
-##  [85]  10.6978422  11.1409875  11.1734649  11.5662798  11.5916211  12.0489948
-##  [91]  12.5127321  12.5143872  12.7605051  12.9580541  12.9830832  13.1611440
-##  [97]  13.4607644  13.4921965  13.9466684  14.2321342  14.4414890  14.9387472
-## [103]  14.9458423  15.4602446  15.9854910  16.2601987  16.3467661  16.5235888
-## [109]  16.8017746  17.0765655  17.6461470  17.8234647  18.1917327  18.2346047
-## [115]  18.2926350  18.8438433  19.2314398  19.4744639  19.5110756  19.8388325
-## [121]  19.9398630  20.1277149  20.7411461  20.8027669  21.0992311  21.2618247
-## [127]  21.4926912  21.4968692  21.5157797  22.2052847  22.9198276  23.6348402
-## [133]  24.3455509  24.5146430  25.0479966  25.7414494  26.2421407  26.4265016
-## [139]  27.0036705  27.1057917  27.6731569  27.7828926  28.1874944  28.3018221
-## [145]  28.4625749  29.1499343  29.8498492  29.8763790  30.0031034  30.0048889
-## [151]  30.1485198  30.5672062  30.7530526  31.3055830  31.9816991  32.0676339
-## [157]  32.8562023  33.6747688  34.5269730  34.5607789  35.2302779  35.2523307
-## [163]  35.4166872  35.5650096  35.7698702  35.9724680  36.3478300  36.9035963
-## [169]  37.3207285  37.5316016  38.0450044  38.3341851  39.3857247  39.7088030
-## [175]  40.4725707  41.5382127  41.5930344  42.7459147  42.8982984  43.9307882
-## [181]  44.3875746  45.1475971  46.3962000  46.5291833  46.6945302  47.6758587
-## [187]  48.9859898  50.3260352  50.3516233  51.6949188  53.0913231  53.2181906
-## [193]  53.7819741  54.5134637  54.7744777  55.9589922  57.4251299  58.1309588
-## [199]  58.4564071  59.7137342  59.7306764  60.8579302  61.0316688  62.9601286
-## [205]  64.1487565  64.8336687  66.5815275  66.7017638  72.1963629  75.8405921
-## [211]  77.3791465  78.3931828  79.1565129  79.1746067  79.8355558  80.4443465
-## [217]  80.6822417  81.9053828  81.9725771  82.0052401  86.4374124  87.1585543
-## [223]  88.4566770  89.5623096  91.1611427  91.9876293  92.2738097  92.7099833
-## [229]  92.7381638  93.8117300  94.9707651  95.1574112  95.4282411  95.7110556
-## [235]  95.9823948  96.0170027  96.6807743  97.3591938  98.0308766  98.0547521
-## [241]  98.4359672  98.4624139  98.8409410  98.8428343  98.9782756  99.1924115
-## [247]  99.1954180  99.3271983  99.3713791  99.3846542  99.4137296  99.4236137
-## [253]  99.4761693  99.5105661  99.5762798  99.6011459  99.6410771  99.7570734
-## [259]  99.8524884  99.9877798  99.9977922 100.0653474 100.3289401 100.3420263
-## [265] 100.5759998 100.6406133 100.7796525 100.7915620 100.8092516 100.8104356
-## [271] 100.8789757 101.0832028 101.1287684 101.3342525 101.4152578 101.6847130
-## [277] 101.8038419 102.0255383 102.3342663 102.3816078 102.4388705 102.4396378
-## [283] 102.4587910 102.4659448 102.4827185 102.4594619 102.4350078 102.4035695
-## [289] 102.3886667 102.3730145 102.3467987 102.3402903 102.1437263 101.9737160
-## [295] 101.9443516 101.7065685 101.6756063 101.6120286 101.3196569 101.1160132
+## Family: gaussian 
+## Link function: identity 
+## 
+## Formula:
+## y ~ s(x, bs = "cr")
+## 
+## Parametric coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  43.9659     0.8305   52.94   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Approximate significance of smooth terms:
+##        edf Ref.df     F p-value    
+## s(x) 6.087  7.143 296.3  &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## R-sq.(adj) =  0.876   Deviance explained = 87.9%
+## GCV = 211.94  Scale est. = 206.93    n = 300
 ```
 
-&lt;img src="Why_data_table_is_awesome_files/figure-html/knot2-3.png" style="display: block; margin: auto;" /&gt;&lt;img src="Why_data_table_is_awesome_files/figure-html/knot2-4.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Check your model:
+
+
+```r
+gam.check(my_gam)
+```
+
+
+```
+## 
+## Method: GCV   Optimizer: magic
+## Smoothing parameter selection converged after 4 iterations.
+## The RMS GCV score gradient at convergence was 1.107369e-05 .
+## The Hessian was positive definite.
+## Model rank =  10 / 10 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&lt;1) may
+## indicate that k is too low, especially if edf is close to k'.
+## 
+##        k'  edf k-index p-value
+## s(x) 9.00 6.09     1.1    0.97
+```
+
+---
+# Check your model:
+
+
+```r
+gam.check(my_gam)
+```
+
+&lt;img src="Why_data_table_is_awesome_files/figure-html/gam3c-1.png" style="display: block; margin: auto;" /&gt;
+
+```
+## 
+## Method: GCV   Optimizer: magic
+## Smoothing parameter selection converged after 4 iterations.
+## The RMS GCV score gradient at convergence was 1.107369e-05 .
+## The Hessian was positive definite.
+## Model rank =  10 / 10 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&lt;1) may
+## indicate that k is too low, especially if edf is close to k'.
+## 
+##        k'  edf k-index p-value
+## s(x) 9.00 6.09     1.1    0.93
+```
+
+---
+
+# Is it any better than linear model?
+
+
+```r
+my_lm &lt;- lm(y ~ x, data=dt)
+
+anova(my_lm, my_gam)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Model 1: y ~ x
+## Model 2: y ~ s(x, bs = "cr")
+##   Res.Df   RSS     Df Sum of Sq      F    Pr(&gt;F)    
+## 1 298.00 88154                                      
+## 2 292.91 60613 5.0873     27540 26.161 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+## Yes, yes it is!
+---
+
+# Summary
+
++ Regression models are concerned with explaining one variable: `y`, with another: `x`
+
++ This relationship is assumed to be linear
+
++ If your data are not linear, or noisy, a smoother might be appropriate
+
+--
+
++ Splines are ideal smoothers, and are polynomials joined at 'knot' points
+
+--
+
++ GAMs are a framework for regressions using smoothers
+
+--
+
++ `mgcv` is a great package for GAMs with various smoothers available
+
++ `mgcv` estimates the required smoothing penalty for you
+
++ `gratia` package is a good visualization tool for GAMs
+
+---
+# References and Further reading:
+
+### Simon Wood's comprehensive book:
++ WOOD, S. N. 2017b. Generalized Additive Models: An Introduction with R, Second Edition, Florida, USA, CRC Press.
+
+### Noam Ross free online GAM course:
+
+
+&lt;br&gt;
+
++ HARRELL, F. E., JR. 2001. Regression Modeling Strategies, New York, Springer-Verlag New York.
+
++ HASTIE, T. 1992. Generalized Additive Models. In: CHAMBERS, J. M. &amp; HASTIE, T. J. (eds.) Statistical Models in S. New York: CRC Press LLC.
+
++ HASTIE, T. &amp; TIBSHIRANI, R. 1986. Generalized Additive Models. Statistical Science, 1, 297-310. 291
+
++ HASTIE, T., TIBSHIRANI, R. &amp; FRIEDMAN, J. 2009. The Elements of Statistical Learning : Data Mining, Inference, and Prediction, New York, NETHERLANDS, Springer.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

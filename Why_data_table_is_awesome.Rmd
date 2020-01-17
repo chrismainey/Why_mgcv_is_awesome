@@ -47,9 +47,9 @@ label=c("1", "1.5", "2"))
 ```
 
 ```{r xaringan-themer, include=FALSE}
-library(xaringanthemer)
-mono_light(base_color = "#23395b",
-           )
+#library(xaringanthemer)
+#mono_light(base_color = "#23395b",
+#           )
 ```
 
 .pull-left[
@@ -60,7 +60,7 @@ mono_light(base_color = "#23395b",
 # Why `mgcv` is awesome
 
 <br><br><br>
-<br><br><br>
+<br><br>
 
 `r icon::fa("envelope")` chris.mainey@uhb.nhs.uk
 
@@ -98,7 +98,7 @@ a
 ```
 ---
 
-# Equation of a stright line
+# Equation of a straight line
 
 $$y= \alpha + \beta x + \epsilon$$
 
@@ -167,7 +167,7 @@ ggplot(dt, aes(y=y, x=x))+
 
 # Splines
 
-+ Smooth, piecewise polynomials, like a flexible strip for drawing curves.
++ Smooth, piece-wise polynomials, like a flexible strip for drawing curves.
 + 'Knot points' between each section
 
 ```{r gam1, echo=FALSE, message=FALSE, warning=FALSE}
@@ -183,10 +183,9 @@ ggplot(dt, aes(y=y, x=x))+
 
 Can be controlled by number of knots, or by a penalty
 
-```{r knot2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=5}
-library(ggplot2)
+.pull-left[
+```{r knots2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=5}
 library(viridis)
-library(splines)
 library(mgcv)
 
 knotplot<-factor(c("3-knots" = "#5DDEDE", "20-knots" =  "#FAD74B" , "50-knots" ="#FA6767" ), ordered = TRUE)
@@ -195,8 +194,7 @@ knotplot<-factor(c("#5DDEDE", "#FAD74B" , "#FA6767" ), labels = c("3-knots", "20
 knotplot<-c("#5DDEDE"="3", "#FAD74B"="20" ,"#FA6767"="50") 
 k2<-as.factor(knotplot)
 
-a<-
-  ggplot(dt, aes(y=y, x=x))+
+ggplot(dt, aes(y=y, x=x))+
   geom_point(size=1.5, alpha=0.4)+
    geom_smooth(aes(col="A"), method = "lm", formula = y~ns(x,4), se=FALSE, size=1.2)+
    geom_smooth(aes(col="B"), method = "lm", formula = y~ns(x,31), se=FALSE, size=1.2)+
@@ -215,19 +213,11 @@ a<-
         plot.title = element_text(size = 11, face="bold") )
 
 
-a
-########### Same plot with with loes and smoothing #####################
+```
+]
 
-smooth.sp<-smooth.spline(x,y)
-
-ggplot(dt, aes(y=y, x=x))+
-  geom_point(size=1.5)+
-  geom_smooth(method = "loess", se=FALSE, size=1.2, alpha=0.5 )+
-  geom_line(aes(x=x, y=y), data=as.data.frame(predict(smooth.sp)), col="red", size=1.1, alpha=0.5)+
-  geom_smooth(method = "glm", formula = y~ns(x,51), col=259,se = FALSE, size=1.1, alpha=0.5)
-
-predict(smooth.sp)
-
+.pull-right[
+```{r penalty, echo=FALSE, message=FALSE, warning=FALSE, fig.width=5}
 ########### Use gam sim for sigmoid and show difference in lambda ###############
 
 smsp<-gam(y~s(x, bs="cr", k=20), data=dt, gamma=0.001)
@@ -241,7 +231,7 @@ dt$sp3<-predict(smsp3, type="response")
 
 
 #dt$sp1<-NULL
-b<-ggplot(dt, aes(y=y, x=x))+
+ggplot(dt, aes(y=y, x=x))+
   geom_point(alpha=0.4)+
   geom_line(aes(y=sp1, x=x, col="0.001"), size=1.2)+
   geom_line(aes(y=sp2, x=x, col="1"), size=1.2)+
@@ -255,16 +245,135 @@ b<-ggplot(dt, aes(y=y, x=x))+
         legend.position = "bottom",
         plot.title = element_text(size = 11, face="bold") )
   
-b
-library(gridExtra)
+```
 
-# grid.arrange(a,b, ncol=2, nrow=1)
+]
 
-library(patchwork)
+---
 
-( a | b)
+# Generalized Additive Model
 
++ Regression models where we fit smoothers (like splines) from our data.
++ Strictly Additive, but smoothers can describe complex relationships.
++ In our case:
+
+$$y= \alpha + \beta f(x) + \epsilon$$
+--
+
+<br>
+Or more formally (Wood, 2017):
+
+$$ g(\mu i) = Ai\theta + f1(x1) + f2(x2i) + f3(x3i, x4i) + ...$$
+Where:
++ $\mu i \equiv E(Y i)$, the expectation of Y
++ $Yi \sim EF(\mu i, \phi i)$, $Yi$ is a response variable, distributed according to exponential family distribution with mean $\mu i$ and shape parameter $\phi$.
++ $Ai$ is a row of the model matrix for any strictly parametric model components with $\theta$ the corresponding parameter vector.
++ $fi$ are smooth functions of the covariates, $xk$.
+
+---
+# What does that mean for me?
+
++ Can build regression models with smoother
++ Suited to non-linear, or noisy data
++ Hastie(1985) method uses knot ever point, Wood(2017) uses reduced rank version
+
+--
+
+# mgcv: mixed gam computation vehicle
+
++ Prof. Simon Wood's package, pretty much the standard
++ Included in base `R` distribution and `ggplot2`s `geom_smooth` uses it
+
+```{r gam}
+library(mgcv)
+my_gam <- gam(y ~ s(x, bs="cr"), data=dt)
+```
+
++ `s()` control smoothers
++ `bs="cr"` telling it to use cubic regression spline ('basis')
++ Default is 10 knots, but can alter with `k=`
+---
+
+# Model Output:
+```{r gam2}
+summary(my_gam)
 ```
 
 
+---
+# Check your model:
 
+```{r gam3, eval=FALSE}
+gam.check(my_gam)
+```
+
+```{r gam3a, echo=FALSE, fig.show= 'hide'}
+gam.check(my_gam)
+```
+
+---
+# Check your model:
+
+```{r gam3b, eval=FALSE}
+gam.check(my_gam)
+```
+
+```{r gam3c, echo=FALSE}
+gam.check(my_gam)
+```
+
+---
+
+# Is it any better than linear model?
+
+```{r lmcomp}
+my_lm <- lm(y ~ x, data=dt)
+
+anova(my_lm, my_gam)
+```
+
+## Yes, yes it is!
+---
+
+# Summary
+
++ Regression models are concerned with explaining one variable: `y`, with another: `x`
+
++ This relationship is assumed to be linear
+
++ If your data are not linear, or noisy, a smoother might be appropriate
+
+--
+
++ Splines are ideal smoothers, and are polynomials joined at 'knot' points
+
+--
+
++ GAMs are a framework for regressions using smoothers
+
+--
+
++ `mgcv` is a great package for GAMs with various smoothers available
+
++ `mgcv` estimates the required smoothing penalty for you
+
++ `gratia` package is a good visualization tool for GAMs
+
+---
+# References and Further reading:
+
+### Simon Wood's comprehensive book:
++ WOOD, S. N. 2017b. Generalized Additive Models: An Introduction with R, Second Edition, Florida, USA, CRC Press.
+
+### Noam Ross free online GAM course:
+
+
+<br>
+
++ HARRELL, F. E., JR. 2001. Regression Modeling Strategies, New York, Springer-Verlag New York.
+
++ HASTIE, T. 1992. Generalized Additive Models. In: CHAMBERS, J. M. & HASTIE, T. J. (eds.) Statistical Models in S. New York: CRC Press LLC.
+
++ HASTIE, T. & TIBSHIRANI, R. 1986. Generalized Additive Models. Statistical Science, 1, 297-310. 291
+
++ HASTIE, T., TIBSHIRANI, R. & FRIEDMAN, J. 2009. The Elements of Statistical Learning : Data Mining, Inference, and Prediction, New York, NETHERLANDS, Springer.
