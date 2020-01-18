@@ -15,7 +15,7 @@ output:
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(fig.width=10, fig.height=6, fig.align = "center") 
+knitr::opts_chunk$set(fig.width=10, fig.height=6, fig.align = "center", dev.args = list(png = list(type = "cairo"))) 
 
 library(Cairo)
 
@@ -269,7 +269,7 @@ Where:
 + $\mu i \equiv E(Y i)$, the expectation of Y
 + $Yi \sim EF(\mu i, \phi i)$, $Yi$ is a response variable, distributed according to exponential family distribution with mean $\mu i$ and shape parameter $\phi$.
 + $Ai$ is a row of the model matrix for any strictly parametric model components with $\theta$ the corresponding parameter vector.
-+ $fi$ are smooth functions of the covariates, $xk$.
++ $fi$ are smooth functions of the covariates, $xk$, where $k$ is each function basis.
 
 ---
 # What does that mean for me?
@@ -364,7 +364,7 @@ anova(my_lm, my_gam)
 # References and Further reading:
 
 ### Simon Wood's comprehensive book:
-+ WOOD, S. N. 2017b. Generalized Additive Models: An Introduction with R, Second Edition, Florida, USA, CRC Press.
++ WOOD, S. N. 2017. Generalized Additive Models: An Introduction with R, Second Edition, Florida, USA, CRC Press.
 
 ### Noam Ross free online GAM course:
 https://noamross.github.io/gams-in-r-course/
@@ -372,8 +372,6 @@ https://noamross.github.io/gams-in-r-course/
 <br>
 
 + HARRELL, F. E., JR. 2001. Regression Modeling Strategies, New York, Springer-Verlag New York.
-
-+ HASTIE, T. 1992. Generalized Additive Models. In: CHAMBERS, J. M. & HASTIE, T. J. (eds.) Statistical Models in S. New York: CRC Press LLC.
 
 + HASTIE, T. & TIBSHIRANI, R. 1986. Generalized Additive Models. Statistical Science, 1, 297-310. 291
 
