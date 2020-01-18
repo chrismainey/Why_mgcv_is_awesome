@@ -73,9 +73,10 @@ label=c("1", "1.5", "2"))
 ]
 
 .pull-right[
-<br><br><br>
-<br>
-<a href="https://imgflip.com/i/3mampd"><img src="https://i.imgflip.com/3mampd.jpg" title="made at imgflip.com"/></a>
+
+<img src="man/figures/download.png">
+
+_Don'think about it too hard..._ `r emo::ji("wink")` 
 
 ]
 
