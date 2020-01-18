@@ -16,7 +16,7 @@ output:
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.width=10, fig.height=6, fig.align = "center", 
-                      dpi = 500, dev.args = list(png = list(type = "cairo"))) 
+                      dev.args = list(png = list(type = "cairo")), fig.retina=3) 
 
 library(Cairo)
 
