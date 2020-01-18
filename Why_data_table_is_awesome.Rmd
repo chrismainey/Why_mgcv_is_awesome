@@ -367,7 +367,7 @@ anova(my_lm, my_gam)
 + WOOD, S. N. 2017b. Generalized Additive Models: An Introduction with R, Second Edition, Florida, USA, CRC Press.
 
 ### Noam Ross free online GAM course:
-
+https://noamross.github.io/gams-in-r-course/
 
 <br>
 
