@@ -271,25 +271,25 @@ ggplot(dt, aes(y=y, x=x))+
 + Strictly Additive, but smoothers can describe complex relationships.
 + In our case:
 
-$$y= \alpha + \beta f(x) + \epsilon$$
+$$y= \alpha + f(x)\beta + \epsilon$$
 --
 
 <br>
-Or more formally (Wood, 2017):
+Or more formally _(Wood, 2017)_:
 
 $$ g(\mu i) = Ai\theta + f1(x1) + f2(x2i) + f3(x3i, x4i) + ...$$
-Where:
-+ $\mu i \equiv E(Y i)$, the expectation of Y
-+ $Yi \sim EF(\mu i, \phi i)$, $Yi$ is a response variable, distributed according to exponential family distribution with mean $\mu i$ and shape parameter $\phi$.
-+ $Ai$ is a row of the model matrix for any strictly parametric model components with $\theta$ the corresponding parameter vector.
-+ $fi$ are smooth functions of the covariates, $xk$, where $k$ is each function basis.
+__Where:__
++ $\mu i \equiv E(Y i)$, _the expectation of Y_
++ $Yi \sim EF(\mu i, \phi i)$, $Yi$ _is a response variable, distributed according to exponential family distribution with mean_ $\mu i$ _and shape parameter_ $\phi$.
++ $Ai$ _is a row of the model matrix for any strictly parametric model components with_ $\theta$ _the corresponding parameter vector._
++ $fi$ _are smooth functions of the covariates,_ $xk$, _where_ $k$ _is each function basis._
 
 ---
 # What does that mean for me?
 
 + Can build regression models with smoother
 + Suited to non-linear, or noisy data
-+ Hastie(1985) method uses knot ever point, Wood(2017) uses reduced rank version
++ _Hastie (1985)_ method uses knot every point, _Wood (2017)_ uses reduced-rank version
 
 --
 
