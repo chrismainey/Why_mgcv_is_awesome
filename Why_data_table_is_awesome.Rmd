@@ -77,7 +77,7 @@ label=c("1", "1.5", "2"))
 
 <img src="man/figures/download.png">
 
-_Don'think about it too hard..._ `r emo::ji("wink")` 
+_Don't think about it too hard..._ `r emo::ji("wink")` 
 
 ]
 
