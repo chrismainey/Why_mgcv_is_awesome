@@ -72,7 +72,7 @@ a, a > code {
   text-decoration: none;
 }
 
-.smaller ul, .smaller ul {
+.smaller ul, .smaller li {
   padding: 2px 5px;
   font-size: 0.7em;
 }
@@ -172,6 +172,19 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 
 @page { margin: 0; }
 @media print {
+  .remark-container {
+    overflow: visible;
+    background-color: #fff;
+    display:block;
+    box-shadow: none;
+
+  }
+
+  .remark-slide-content{
+   overflow: visible;
+ }
+
+
   .remark-slide-scaler {
     width: 100% !important;
     height: 100% !important;

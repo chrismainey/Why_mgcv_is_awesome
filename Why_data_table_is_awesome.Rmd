@@ -79,7 +79,7 @@ label= c("1", "\u03B2", "\u03B1" ))
 
 <img src="man/figures/download.png">
 
-_Don'think about it too hard..._ `r emo::ji("wink")` 
+_Don't think about it too hard..._ `r emo::ji("wink")` 
 
 ]
 
@@ -329,6 +329,7 @@ ggplot(dt, aes(y=y, x=x))+
 + Strictly additive, but smoothers can describe complex relationships.
 + In our case:
 
+
 $$y= \alpha + f(x) + \epsilon$$
 --
 
@@ -358,12 +359,15 @@ Where:
 .smaller[
 + $f_i$ are smooth functions of the covariates, $xk$, where $k$ is each function basis.]
 
+
 ---
 # What does that mean for me?
 
 + Can build regression models with smoothers
 + Suited to non-linear, or noisy data
+
 + _Hastie (1985)_ used knot every point, _Wood (2017)_ uses reduced-rank version
+
 
 --
 
@@ -455,14 +459,22 @@ anova(my_lm, my_gam)
 #### GitHub code: 
 https://github.com/chrismainey/Why_mgcv_is_awesome
 
+
+
 #### Simon Wood's comprehensive book:
 + WOOD, S. N. 2017. Generalized Additive Models: An Introduction with R, Second Edition, Florida, USA, CRC Press.
+
+
 
 #### Noam Ross free online GAM course:
 https://noamross.github.io/gams-in-r-course/
 
 <br>
 
+.smaller[
 + HARRELL, F. E., JR. 2001. Regression Modeling Strategies, New York, Springer-Verlag New York.
+
 + HASTIE, T. & TIBSHIRANI, R. 1986. Generalized Additive Models. Statistical Science, 1, 297-310. 291
+
 + HASTIE, T., TIBSHIRANI, R. & FRIEDMAN, J. 2009. The Elements of Statistical Learning : Data Mining, Inference, and Prediction, New York, NETHERLANDS, Springer.
+]
