@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
   <head>
     <title>Why mgcv is awesome</title>
     <meta charset="utf-8" />
     <meta name="author" content="Chris Mainey" />
-    <meta name="date" content="2020-01-20" />
+    <meta name="date" content="2020-01-21" />
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -49,7 +49,7 @@ _Don'think about it too hard..._ 😉
 
 # Regression models on non-linear data
 
-+ Regression is a common method for predicting a variable `Y` using `X`
++ Regression is a method for predicting a variable, `Y`, using another, `X`
 
 &lt;img src="Why_data_table_is_awesome_files/figure-html/regression1-1.png" width="720" style="display: block; margin: auto;" /&gt;
 ---
@@ -86,6 +86,21 @@ _Don'think about it too hard..._ 😉
 &lt;img src="Why_data_table_is_awesome_files/figure-html/cats-1.png" width="720" style="display: block; margin: auto;" /&gt;
 ---
 
+# What about nonlinear data? (3)
+
+&lt;img src="Why_data_table_is_awesome_files/figure-html/cats3-1.png" width="720" style="display: block; margin: auto;" /&gt;
+---
+
+# What about nonlinear data? (4)
+
+&lt;img src="Why_data_table_is_awesome_files/figure-html/cats4-1.png" width="720" style="display: block; margin: auto;" /&gt;
+---
+
+# What about nonlinear data? (5)
+
+&lt;img src="Why_data_table_is_awesome_files/figure-html/cats5-1.png" width="720" style="display: block; margin: auto;" /&gt;
+---
+
 # Splines
 
 + Smooth, piece-wise polynomials, like a flexible strip for drawing curves.
@@ -113,35 +128,53 @@ Can be controlled by number of knots, or by a penalty
 # Generalized Additive Model
 
 + Regression models where we fit smoothers (like splines) from our data.
-+ Strictly Additive, but smoothers can describe complex relationships.
++ Strictly additive, but smoothers can describe complex relationships.
 + In our case:
 
-`$$y= \alpha + \beta f(x) + \epsilon$$`
+`$$y= \alpha + f(x) + \epsilon$$`
 --
 
 &lt;br&gt;
-Or more formally (Wood, 2017):
+.smaller[
+Or more formally (Wood, 2017):]
 
-$$ g(\mu i) = Ai\theta + f1(x1) + f2(x2i) + f3(x3i, x4i) + ...$$
+`$$g(\mu i) = A_i \theta + f_1(x_1) + f_2(x_{2i}) + f3(x_{3i}, x_{4i}) + ...$$`
+&lt;br&gt;
 Where:
-+ `\(\mu i \equiv E(Y i)\)`, the expectation of Y
-+ `\(Yi \sim EF(\mu i, \phi i)\)`, `\(Yi\)` is a response variable, distributed according to exponential family distribution with mean `\(\mu i\)` and shape parameter `\(\phi\)`.
-+ `\(Ai\)` is a row of the model matrix for any strictly parametric model components with `\(\theta\)` the corresponding parameter vector.
-+ `\(fi\)` are smooth functions of the covariates, `\(xk\)`, where `\(k\)` is each function basis.
+
+.smaller[
++ `\(\mu i \equiv E(Y _i)\)`, the expectation of Y]
+
+--
+
+.smaller[
++ `\(Yi \sim EF(\mu _i, \phi _i)\)`, `\(Yi\)` is a response variable, distributed according to exponential family distribution with mean `\(\mu _i\)` and shape parameter `\(\phi\)`.]
+
+--
+
+.smaller[
++ `\(A_i\)` is a row of the model matrix for any strictly parametric model components with `\(\theta\)` the corresponding parameter vector.]
+
+--
+
+.smaller[
++ `\(f_i\)` are smooth functions of the covariates, `\(xk\)`, where `\(k\)` is each function basis.]
 
 ---
 # What does that mean for me?
 
-+ Can build regression models with smoother
++ Can build regression models with smoothers
 + Suited to non-linear, or noisy data
-+ Hastie(1985) method uses knot ever point, Wood(2017) uses reduced rank version
++ _Hastie (1985)_ used knot every point, _Wood (2017)_ uses reduced-rank version
 
 --
 
 # mgcv: mixed gam computation vehicle
 
 + Prof. Simon Wood's package, pretty much the standard
-+ Included in base `R` distribution and `ggplot2`s `geom_smooth` uses it
++ Included in base `R` distribution, `ggplot2`s `geom_smooth` uses it etc.
+
+--
 
 
 ```r
@@ -151,7 +184,7 @@ my_gam &lt;- gam(y ~ s(x, bs="cr"), data=dt)
 
 + `s()` control smoothers
 + `bs="cr"` telling it to use cubic regression spline ('basis')
-+ Default is 10 knots, but can alter with `k=`
++ Default is 10 knots (`k=10` argument), but you can alter this
 ---
 
 # Model Output:
@@ -282,7 +315,7 @@ anova(my_lm, my_gam)
 
 + `mgcv` estimates the required smoothing penalty for you
 
-+ `gratia` package is a good visualization tool for GAMs
++ `gratia` or `mgcViz` packages are good visualization tool for GAMs
 
 ---
 # References and Further reading:

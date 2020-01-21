@@ -60,6 +60,7 @@ h1, h2, h3 {
 
 
 }
+
 .remark-slide-number {
   color: #23395b;
   opacity: 1;
@@ -70,6 +71,12 @@ a, a > code {
   color: #23395b;
   text-decoration: none;
 }
+
+.smaller ul, .smaller ul {
+  padding: 2px 5px;
+  font-size: 0.7em;
+}
+
 .footnote {
 
   position: absolute;
