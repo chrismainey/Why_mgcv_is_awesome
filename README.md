@@ -9,5 +9,3 @@
 
 This is a quick repo for my lightning talk at BirminghamR on 21st
 January 2020.
-
-Work in progress\!
