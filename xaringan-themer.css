@@ -73,8 +73,8 @@ a, a > code {
 }
 
 .smaller ul, .smaller li {
-  padding: 2px 5px;
-  font-size: 0.7em;
+  padding: 0px 4px;
+  font-size: 0.8em;
 }
 
 .footnote {

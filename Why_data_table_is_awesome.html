@@ -4,7 +4,7 @@
     <title>Why mgcv is awesome</title>
     <meta charset="utf-8" />
     <meta name="author" content="Chris Mainey" />
-    <meta name="date" content="2020-01-21" />
+    <meta name="date" content="2020-01-22" />
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -112,7 +112,7 @@ _Don't think about it too hard..._ 😉
 
 # How smooth?
 
-Can be controlled by number of knots, or by a penalty
+Can be controlled by number of knots `\((k)\)`, or by a penalty$\gamma$.
 
 .pull-left[
 &lt;img src="Why_data_table_is_awesome_files/figure-html/knots2-1.png" width="360" style="display: block; margin: auto;" /&gt;
@@ -137,7 +137,8 @@ Can be controlled by number of knots, or by a penalty
 
 &lt;br&gt;
 .smaller[
-Or more formally (Wood, 2017):]
+Or more formally, an example GAM might be (Wood, 2017):
+]
 
 `$$g(\mu i) = A_i \theta + f_1(x_1) + f_2(x_{2i}) + f3(x_{3i}, x_{4i}) + ...$$`
 &lt;br&gt;
@@ -176,14 +177,14 @@ Where:
 # mgcv: mixed gam computation vehicle
 
 + Prof. Simon Wood's package, pretty much the standard
-+ Included in base `R` distribution, `ggplot2`s `geom_smooth` uses it etc.
++ Included in standard `R` distribution, used in `ggplot2` `geom_smooth` etc.
 
 --
 
 
 ```r
 library(mgcv)
-my_gam &lt;- gam(y ~ s(x, bs="cr"), data=dt)
+my_gam &lt;- gam(Y ~ s(X, bs="cr"), data=dt)
 ```
 
 + `s()` control smoothers
@@ -203,7 +204,7 @@ summary(my_gam)
 ## Link function: identity 
 ## 
 ## Formula:
-## y ~ s(x, bs = "cr")
+## Y ~ s(X, bs = "cr")
 ## 
 ## Parametric coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
@@ -213,7 +214,7 @@ summary(my_gam)
 ## 
 ## Approximate significance of smooth terms:
 ##        edf Ref.df     F p-value    
-## s(x) 6.087  7.143 296.3  &lt;2e-16 ***
+## s(X) 6.087  7.143 296.3  &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -243,7 +244,7 @@ gam.check(my_gam)
 ## indicate that k is too low, especially if edf is close to k'.
 ## 
 ##        k'  edf k-index p-value
-## s(x) 9.00 6.09     1.1    0.97
+## s(X) 9.00 6.09     1.1    0.97
 ```
 
 ---
@@ -268,7 +269,7 @@ gam.check(my_gam)
 ## indicate that k is too low, especially if edf is close to k'.
 ## 
 ##        k'  edf k-index p-value
-## s(x) 9.00 6.09     1.1    0.93
+## s(X) 9.00 6.09     1.1    0.93
 ```
 
 ---
@@ -277,7 +278,7 @@ gam.check(my_gam)
 
 
 ```r
-my_lm &lt;- lm(y ~ x, data=dt)
+my_lm &lt;- lm(Y ~ X, data=dt)
 
 anova(my_lm, my_gam)
 ```
@@ -285,8 +286,8 @@ anova(my_lm, my_gam)
 ```
 ## Analysis of Variance Table
 ## 
-## Model 1: y ~ x
-## Model 2: y ~ s(x, bs = "cr")
+## Model 1: Y ~ X
+## Model 2: Y ~ s(X, bs = "cr")
 ##   Res.Df   RSS     Df Sum of Sq      F    Pr(&gt;F)    
 ## 1 298.00 88154                                      
 ## 2 292.91 60613 5.0873     27540 26.161 &lt; 2.2e-16 ***
