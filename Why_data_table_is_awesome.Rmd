@@ -20,6 +20,7 @@ knitr::opts_chunk$set(fig.width=10, fig.height=6, fig.align = "center",
                       dev.args = list(png = list(type = "cairo")), fig.retina=3) 
 
 library(Cairo)
+library(citr)
 
 set.seed(123)
 
@@ -257,7 +258,7 @@ ggplot(dt, aes(y=Y, x=X))+
 
 # How smooth?
 
-Can be controlled by number of knots $(k)$, or by a penalty$\gamma$.
+Can be controlled by number of knots $(k)$, or by a penalty $\gamma$.
 
 .pull-left[
 ```{r knots2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=5}
@@ -275,14 +276,13 @@ ggplot(dt, aes(y=Y, x=X))+
    geom_smooth(aes(col="A"), method = "lm", formula = y~ns(x,4), se=FALSE, size=1.2)+
    geom_smooth(aes(col="B"), method = "lm", formula = y~ns(x,31), se=FALSE, size=1.2)+
    geom_smooth(aes(col="C"), method = "lm", formula = y~ns(x,51), se = FALSE, size=1.2)+
-  scale_color_manual(values = c("#5DDEDE", "#FAD74B" ,"#FA6767"),
+   scale_color_manual(values = c("#5DDEDE", "#FAD74B" ,"#FA6767"),
                      labels= factor(x=c("A", "B", "C"), levels=c("A", "B", "C"), labels=c("3", "20", "50"), ordered=TRUE)
                      , name="Knots")+
 
   # scale_color_discrete(#values = c("#5DDEDE", "#FAD74B" ,"#FA6767")
   #                    breaks= c("3","20","50"), name="Knots" )+
-  # 
-  ggtitle("Changing number of knots")+
+  labs(title= "Changing number of knots")+
   theme(legend.title = element_text(face="bold", size=9),
         legend.text = element_text(size=8),
         legend.position = "bottom",
