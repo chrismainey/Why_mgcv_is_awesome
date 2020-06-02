@@ -21,6 +21,17 @@ knitr::opts_chunk$set(fig.width=10, fig.height=6, fig.align = "center",
 
 library(Cairo)
 library(citr)
+library(ggplot2)
+
+## Set ggplot defaults
+theme_set(
+  theme_bw() +
+    theme(legend.position = "right",
+          plot.subtitle = element_text(face = "italic"
+                                       , family = "sans"
+                                       , size=10))
+)
+
 
 set.seed(123)
 
@@ -431,7 +442,10 @@ my_lm <- lm(Y ~ X, data=dt)
 anova(my_lm, my_gam)
 ```
 
+--
+
 ## Yes, yes it is!
+
 ---
 
 # Summary
