@@ -77,13 +77,13 @@ label= c("1", "\u03B2", "\u03B1" ))
 <br><br><br>
 <br><br>
 
-`r icon::fa("envelope")` chris.mainey@uhb.nhs.uk
+`r icons::icon_style(icons::fontawesome("envelope"))` c.mainey@nhs.net
 
-`r icon::fa("globe")` [mainard.co.uk](https://www.mainard.co.uk)
+`r icons::icon_style(icons::fontawesome("globe"))` [mainard.co.uk](https://www.mainard.co.uk)
 
-`r icon::fa("github")` [github.com/chrismainey](https://github.com/chrismainey)
+`r icons::icon_style(icons::fontawesome("github"))` [github.com/chrismainey](https://github.com/chrismainey)
 
-`r icon::fa("twitter")` [twitter.com/chrismainey](https://twitter.com/chrismainey)
+`r icons::icon_style(icons::fontawesome("twitter"))` [twitter.com/chrismainey](https://twitter.com/chrismainey)
 
 ]
 
