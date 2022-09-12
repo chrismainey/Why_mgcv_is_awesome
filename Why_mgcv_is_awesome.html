@@ -4,7 +4,7 @@
     <title>Why mgcv is awesome</title>
     <meta charset="utf-8" />
     <meta name="author" content="Chris Mainey" />
-    <meta name="date" content="2022-01-27" />
+    <meta name="date" content="2022-09-12" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -38,9 +38,10 @@
 
 .pull-right[
 
-&lt;img src="man/figures/download.png"&gt;
+&lt;p style="text-align:center;font-weight:bold;"&gt;&lt;img src="man/figures/download.png" style="height:550px;" alt="Picture of Michael Jackson's dance routine for the song 'Smooth Criminal', with the bad dad-joke: 'You've been hit by a smoothed residual'"&gt;
+&lt;br&gt;
+Don't think about it too hard...😉  &lt;/p&gt;
 
-_Don't think about it too hard..._ 😉 
 
 ]
 
@@ -51,14 +52,14 @@ _Don't think about it too hard..._ 😉
 
 + Regression is a method for predicting a variable, `Y`, using another, `X`
 
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/regression1-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/regression1-1.png" width="864" style="display: block; margin: auto;" /&gt;
 ---
 
 # Equation of a straight line (1)
 
 `$$y= \alpha + \beta x + \epsilon$$`
 
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/regression2-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/regression2-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -69,36 +70,36 @@ _Don't think about it too hard..._ 😉
 
 `$$y= 2 + 1.5 x + \epsilon$$`
 
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/regression3-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/regression3-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 # What about nonlinear data? (1)
 
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/sig-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/sig-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 # What about nonlinear data? (2)
 
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/cats-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/cats-1.png" width="864" style="display: block; margin: auto;" /&gt;
 ---
 
 # What about nonlinear data? (3)
 
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/cats3-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/cats3-1.png" width="864" style="display: block; margin: auto;" /&gt;
 ---
 
 # What about nonlinear data? (4)
 
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/cats4-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/cats4-1.png" width="864" style="display: block; margin: auto;" /&gt;
 ---
 
 # What about nonlinear data? (5)
 
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/cats5-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/cats5-1.png" width="864" style="display: block; margin: auto;" /&gt;
 ---
 
 # Splines
@@ -106,7 +107,7 @@ _Don't think about it too hard..._ 😉
 + Smooth, piece-wise polynomials, like a flexible strip for drawing curves.
 + 'Knot points' between each section
 
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/gam1-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/gam1-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -115,11 +116,11 @@ _Don't think about it too hard..._ 😉
 Can be controlled by number of knots `\((k)\)`, or by a penalty `\(\gamma\)`.
 
 .pull-left[
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/knots2-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/knots2-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/penalty-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/penalty-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -207,14 +208,14 @@ summary(my_gam)
 ## Y ~ s(X, bs = "cr")
 ## 
 ## Parametric coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  43.9659     0.8305   52.94   &lt;2e-16 ***
+##             Estimate Std. Error t value            Pr(&gt;|t|)    
+## (Intercept)  43.9659     0.8305   52.94 &lt;0.0000000000000002 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Approximate significance of smooth terms:
-##        edf Ref.df     F p-value    
-## s(X) 6.087  7.143 296.3  &lt;2e-16 ***
+##        edf Ref.df     F             p-value    
+## s(X) 6.087  7.143 296.3 &lt;0.0000000000000002 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -236,7 +237,7 @@ gam.check(my_gam)
 ## 
 ## Method: GCV   Optimizer: magic
 ## Smoothing parameter selection converged after 4 iterations.
-## The RMS GCV score gradient at convergence was 1.107369e-05 .
+## The RMS GCV score gradient at convergence was 0.00001107369 .
 ## The Hessian was positive definite.
 ## Model rank =  10 / 10 
 ## 
@@ -255,13 +256,13 @@ gam.check(my_gam)
 gam.check(my_gam)
 ```
 
-&lt;img src="Why_mgcv_is_awesome_files/figure-html/gam3c-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="Why_mgcv_is_awesome_files/figure-html/gam3c-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 ```
 ## 
 ## Method: GCV   Optimizer: magic
 ## Smoothing parameter selection converged after 4 iterations.
-## The RMS GCV score gradient at convergence was 1.107369e-05 .
+## The RMS GCV score gradient at convergence was 0.00001107369 .
 ## The Hessian was positive definite.
 ## Model rank =  10 / 10 
 ## 
@@ -288,9 +289,9 @@ anova(my_lm, my_gam)
 ## 
 ## Model 1: Y ~ X
 ## Model 2: Y ~ s(X, bs = "cr")
-##   Res.Df   RSS     Df Sum of Sq      F    Pr(&gt;F)    
-## 1 298.00 88154                                      
-## 2 292.91 60613 5.0873     27540 26.161 &lt; 2.2e-16 ***
+##   Res.Df   RSS     Df Sum of Sq      F                Pr(&gt;F)    
+## 1 298.00 88154                                                  
+## 2 292.91 60613 5.0873     27540 26.161 &lt; 0.00000000000000022 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -356,7 +357,9 @@ https://noamross.github.io/gams-in-r-course/
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": false
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%",
+"ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
@@ -397,6 +400,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

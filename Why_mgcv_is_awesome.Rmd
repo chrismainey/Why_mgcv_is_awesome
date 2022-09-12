@@ -10,18 +10,24 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+      ratio: 16:9
     seal: false
-    
 ---
 
 ```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(fig.width=10, fig.height=6, fig.align = "center", 
-                      dev.args = list(png = list(type = "cairo")), fig.retina=3) 
-
-library(Cairo)
+library(ragg)
+#library(Cairo)
 library(citr)
 library(ggplot2)
+
+options(htmltools.dir.version = FALSE)
+
+
+knitr::opts_chunk$set(fig.width=12, fig.height=6, fig.align = "center", dev = "ragg_png"
+                      #dev.args = list(png = list(type = "cairo"))
+                      , fig.retina=3) 
+
 
 ## Set ggplot defaults
 theme_set(
@@ -89,9 +95,10 @@ label= c("1", "\u03B2", "\u03B1" ))
 
 .pull-right[
 
-<img src="man/figures/download.png">
+<p style="text-align:center;font-weight:bold;"><img src="man/figures/download.png" style="height:550px;" alt="Picture of Michael Jackson's dance routine for the song 'Smooth Criminal', with the bad dad-joke: 'You've been hit by a smoothed residual'">
+<br>
+Don't think about it too hard...`r emo::ji("wink")`  </p>
 
-_Don't think about it too hard..._ `r emo::ji("wink")` 
 
 ]
 
@@ -166,7 +173,7 @@ dt$cat<-factor(ifelse(dt$X<50, "a", ifelse(dt$X <150, "b", "c")))
 
 dt$cat_pred<-predict(lm(dt$Y ~ dt$cat))
 
-
+cuts <- data.frame(y = rep(unique(dt$cat_pred), each =2 ), x = c(0,50,50,150,150,max(dt$X)))
 
 ggplot(dt, aes(y=Y, x=X))+
   geom_point(size=1.5, alpha=0.4)+
@@ -183,7 +190,7 @@ ggplot(dt, aes(y=Y, x=X))+
 ggplot(dt, aes(y=Y, x=X))+
   geom_point(size=1.8, alpha=0.4)+
   geom_smooth(aes(col="A"), method = "lm",  se=FALSE, size=1.3)+
-  #geom_line(aes(y=cat_pred, col="B"),  size=1.3)+
+  #geom_line(aes(y=y, x=x, col="B"),  size=1.3, data = cuts)+
   #geom_smooth(aes(col="C"), method = "lm", formula= y~poly(x, 3),  se=FALSE, size=1.3)+
   scale_color_manual(values = c("#5DDEDE", "#FAD74B" ,"#FA6767"),
                      labels= factor(x=c("A", "B", "C"), levels=c("A", "B", "C"), labels=c("Linear", "Categorical", "Polynomial"), ordered=TRUE)
@@ -202,7 +209,7 @@ ggplot(dt, aes(y=Y, x=X))+
 ggplot(dt, aes(y=Y, x=X))+
   geom_point(size=1.8, alpha=0.4)+
   #geom_smooth(aes(col="A"), method = "lm",  se=FALSE, size=1.3)+
-  geom_line(aes(y=cat_pred, col="B"),  size=1.3)+
+  geom_line(aes(y=y, x=x, col="B"),  size=1.3, data = cuts)+
   #geom_smooth(aes(col="C"), method = "lm", formula= y~poly(x, 3),  se=FALSE, size=1.3)+
   scale_color_manual(values = c("#FAD74B" ,"#FA6767"),
                      labels= factor(x=c("B", "C"), levels=c("B", "C"), labels=c("Categorical", "Polynomial"), ordered=TRUE)
@@ -221,7 +228,7 @@ ggplot(dt, aes(y=Y, x=X))+
 ggplot(dt, aes(y=Y, x=X))+
   geom_point(size=1.8, alpha=0.4)+
   #geom_smooth(aes(col="A"), method = "lm",  se=FALSE, size=1.3)+
-  #geom_line(aes(y=cat_pred, col="B"),  size=1.3)+
+  #geom_line(aes(y=y, x=x, col="B"),  size=1.3, data = cuts)+
   geom_smooth(aes(col="C"), method = "lm", formula= y~poly(x, 3),  se=FALSE, size=1.3)+
   scale_color_manual(values = c("#FA6767"),
                      labels= factor(x=c("C"), levels=c("C"), labels=c("Polynomial"), ordered=TRUE)
@@ -240,7 +247,7 @@ ggplot(dt, aes(y=Y, x=X))+
 ggplot(dt, aes(y=Y, x=X))+
   geom_point(size=1.8, alpha=0.4)+
   geom_smooth(aes(col="A"), method = "lm",  se=FALSE, size=1.3)+
-  geom_line(aes(y=cat_pred, col="B"),  size=1.3)+
+  geom_line(aes(y=y, x=x, col="B"),  size=1.3, data = cuts)+
   geom_smooth(aes(col="C"), method = "lm", formula= y~poly(x, 3),  se=FALSE, size=1.3)+
   scale_color_manual(values = c("#5DDEDE", "#FAD74B" ,"#FA6767"),
                      labels= factor(x=c("A", "B", "C"), levels=c("A", "B", "C"), labels=c("Linear", "Categorical", "Polynomial"), ordered=TRUE)
@@ -272,7 +279,7 @@ ggplot(dt, aes(y=Y, x=X))+
 Can be controlled by number of knots $(k)$, or by a penalty $\gamma$.
 
 .pull-left[
-```{r knots2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=5}
+```{r knots2, echo=FALSE, message=FALSE, warning=FALSE, fig.width=6}
 library(viridis)
 library(mgcv)
 
@@ -304,7 +311,7 @@ ggplot(dt, aes(y=Y, x=X))+
 ]
 
 .pull-right[
-```{r penalty, echo=FALSE, message=FALSE, warning=FALSE, fig.width=5}
+```{r penalty, echo=FALSE, message=FALSE, warning=FALSE, fig.width=6}
 ########### Use gam sim for sigmoid and show difference in lambda ###############
 
 smsp<-gam(Y~s(X, bs="cr", k=20), data=dt, gamma=0.001)

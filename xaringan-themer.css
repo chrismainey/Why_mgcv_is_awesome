@@ -39,6 +39,12 @@ h1, h2, h3 {
 
   padding: 1em 4em 1em 4em;
 }
+
+.remark-slide-content ul, .remark-slide-content li {
+
+  line-height: 1.3;
+}
+
 .remark-slide-content h1 {
     font-size: 50px;
 }
